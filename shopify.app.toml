@@ -3,12 +3,13 @@
 client_id = "d35f7d65321218a30a002f1d099ada7d"
 name = "real-app"
 handle = "real-app-1"
-application_url = "https://fx-diamonds-mortgages-spice.trycloudflare.com"
+application_url = "https://mins-shades-anatomy-sales.trycloudflare.com"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
 dev_store_url = "nogor-test-store.myshopify.com"
+include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
@@ -16,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://fx-diamonds-mortgages-spice.trycloudflare.com/auth/callback",
-  "https://fx-diamonds-mortgages-spice.trycloudflare.com/auth/shopify/callback",
-  "https://fx-diamonds-mortgages-spice.trycloudflare.com/api/auth/callback"
+  "https://mins-shades-anatomy-sales.trycloudflare.com/auth/callback",
+  "https://mins-shades-anatomy-sales.trycloudflare.com/auth/shopify/callback",
+  "https://mins-shades-anatomy-sales.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

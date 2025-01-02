@@ -4,8 +4,17 @@ import { useState } from "react";
 import prisma from '../db.server'
 import { authenticate } from "../shopify.server";
 
-export async function loader(){
-return json({title: "some data", description: "Dummy description"})
+export async function loader({request}){
+    const {session} = await authenticate.admin(request);
+    let settings = await prisma.settings.findFirst({
+        where:{
+            shop: session.shop,
+        },
+    })
+    if(!settings){
+        settings = {};
+    }
+return json(settings)
 }
 export async function action({request}){
 let settings = await request.formData();

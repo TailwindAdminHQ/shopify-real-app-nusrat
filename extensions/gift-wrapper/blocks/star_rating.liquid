@@ -1,0 +1,96 @@
+<div class='gift-wrapper-app' x-data="giftwrapper" :style = "open ? 'background:green; color:white' : 'background:white'">
+<button type='button' @click="toggle">
+{% if block.settings.text != blank %}
+<span>{{block.settings.text}}</span>
+{% endif %}
+<div x-show="open">✔</div>
+</button>
+</div>
+<style>
+  .gift-wrapper-app {
+    display: flex;
+    justify-content: center;
+    max-width: 44rem;
+    border: 1px solid #000;
+    padding: 10px;
+}
+  .gift-wrapper-app button{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  </style>
+      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('giftwrapper', () => ({
+          init(){
+            fetch(this.appUrl + "api/giftwrap"+"?customerId={{customer.id}}&productId={{product.id}}&shop={{shop.permanent_domain}}")
+            .then(response => response.json())
+            .then(result => {
+              if(result.data.length > 0){
+                this.open = true;
+              }
+            })
+            .catch (error => console.log('error', error));
+          }
+            open: false,
+            appUrl: "https://butterfly-combines-marriage-boats.trycloudflare.com"
+            
+            toggle() {
+              {% unless customer %}
+                alert('Please login to add to wishlist');
+                return;
+               {% endunless %} 
+
+               var formdata = new FormData();
+               formdata.append("customerId", "{{customer.id}}");
+               formdata.append("productId", "{{product.id}}");
+               formdata.append("shop", "{{shop.permanent_domain}}");
+               formdata.append("_action", "CREATE");
+
+               if(this.open){
+                this.open = false;
+
+                formdata.set("_action", "DELETE");
+               }
+
+               var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+               }
+
+               fetch(this.appUrl + "api/giftwrap", requestOptions)
+               .then(response => response.json())
+               .then(result => {
+                if(result.open){
+                  this.open = false;
+                }
+                else{
+                  this.open = false;
+                }
+               })
+               .catch(error => console.log('error', error));
+
+               location.reload();
+            }
+        }))
+    })
+</script>
+{% schema %}
+{
+  "name": "Gift Wrapper",
+  "target": "section",
+  "settings": [
+    { "type": "color", "id": "colour", "label": "Gift text colour", "default": "#ff0000" },
+    { "type": "text", "id": "text", "label": "Gift text colour", "default": "Add Gift Wrapper" },
+  ]
+}
+{% endschema %}
+

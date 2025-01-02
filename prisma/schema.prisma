@@ -36,3 +36,10 @@ model Settings {
   title          String
   description         String?
 }
+model Giftwrap {
+  id            Int    @id @default(autoincrement())
+  customerId String?
+  productId String?
+  shop String?
+  createdAt DateTime @default(now())
+}
