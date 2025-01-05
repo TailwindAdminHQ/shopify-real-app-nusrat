@@ -12,7 +12,7 @@ import {
 } from "@shopify/polaris";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { authenticate, MONTHLY_PLAN, ANNUAL_PLAN } from "../shopify.server";
+import { authenticate, LIFETIME_BASIC_PLAN,  } from "../shopify.server";
 
 // import
 //  { MobileAcceptMajor }
@@ -24,7 +24,7 @@ export async function loader({ request }) {
   try {
     // Attempt to check if the shop has an active payment for any plan
     const billingCheck = await billing.require({
-      plans: [MONTHLY_PLAN, ANNUAL_PLAN],
+      plans: [LIFETIME_BASIC_PLAN],
       isTest: true,
       // Instead of redirecting on failure, just catch the error
       onFailure: () => {
@@ -56,7 +56,7 @@ let planData = [
     price: "0",
     action: "Upgrade to pro",
     name: "Free",
-    url: "/app/sections",
+    url: "/app/upgrade",
     features: [
       "100 wishlist per day",
       "500 Products",
@@ -69,9 +69,9 @@ let planData = [
     title: "Pro",
     description: "Pro plan with advanced features",
     price: "10",
-    name: "Monthly subscription",
+    name: "Lifetime subscription",
     action: "Upgrade to pro",
-    url: "/app/sections",
+    url: "/app/upgrade",
     features: [
       "Unlimted wishlist per day",
       "10000 Products",
@@ -90,11 +90,11 @@ export default function PricingPage() {
     <Page>
       <ui-title-bar title="Pricing" />
       <CalloutCard
-          title="Change your plan"
-          illustration="https://cdn.shopify.com/s/files/1/0583/6465/7734/files/tag.png?v=1705280535"
+          title=""
+          illustration=""
           primaryAction={{
-            content: 'Cancel Plan',
-            url: '/app/cancel',
+            content: '',
+            url: '',
           }}
         >
           { plan.name == "Monthly subscription" ? (
@@ -151,8 +151,8 @@ export default function PricingPage() {
                   <Divider />
                 </div>
 
-                { plan_item.name == "Monthly subscription" ?
-                  plan.name != "Monthly subscription" ? (
+                { plan_item.name == "Lifetime subscription" || "Free" ?
+                  plan.name != "Lifetime subscription" ? (
                     <Button primary url={plan_item.url}>
                       {plan_item.action}
                     </Button>

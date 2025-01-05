@@ -1,33 +1,24 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "d35f7d65321218a30a002f1d099ada7d"
-name = "real-app"
-handle = "real-app-1"
-application_url = "https://mins-shades-anatomy-sales.trycloudflare.com"
+client_id = "a878a38df9f8735f4e38986f7a1fefc1"
+name = "wishlist"
+handle = "wishlist-286"
+application_url = "https://become-pay-todd-mitchell.trycloudflare.com"
 embedded = true
-
-[build]
-automatically_update_urls_on_dev = true
-dev_store_url = "nogor-test-store.myshopify.com"
-include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products"
+scopes = "write_products, write_themes, read_themes"
 
 [auth]
 redirect_urls = [
-  "https://mins-shades-anatomy-sales.trycloudflare.com/auth/callback",
-  "https://mins-shades-anatomy-sales.trycloudflare.com/auth/shopify/callback",
-  "https://mins-shades-anatomy-sales.trycloudflare.com/api/auth/callback"
+  "https://become-pay-todd-mitchell.trycloudflare.com/auth/callback",
+  "https://become-pay-todd-mitchell.trycloudflare.com/auth/shopify/callback",
+  "https://become-pay-todd-mitchell.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
 api_version = "2024-10"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
@@ -35,3 +26,8 @@ api_version = "2024-10"
 
 [pos]
 embedded = false
+
+[build]
+dev_store_url = "nogor-test-store.myshopify.com"
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true
