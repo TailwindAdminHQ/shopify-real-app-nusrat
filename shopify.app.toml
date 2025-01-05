@@ -3,7 +3,7 @@
 client_id = "a878a38df9f8735f4e38986f7a1fefc1"
 name = "wishlist"
 handle = "wishlist-286"
-application_url = "https://become-pay-todd-mitchell.trycloudflare.com"
+application_url = "https://missed-goods-searched-trigger.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ scopes = "write_products, write_themes, read_themes"
 
 [auth]
 redirect_urls = [
-  "https://become-pay-todd-mitchell.trycloudflare.com/auth/callback",
-  "https://become-pay-todd-mitchell.trycloudflare.com/auth/shopify/callback",
-  "https://become-pay-todd-mitchell.trycloudflare.com/api/auth/callback"
+  "https://missed-goods-searched-trigger.trycloudflare.com/auth/callback",
+  "https://missed-goods-searched-trigger.trycloudflare.com/auth/shopify/callback",
+  "https://missed-goods-searched-trigger.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
