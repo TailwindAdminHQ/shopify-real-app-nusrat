@@ -40,19 +40,19 @@ export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
   let settings = Object.fromEntries(formData);
   await db.settings.upsert({
-    where:{
-      id:'1'
+    where: {
+      id: '1'
     },
-update:{
-  id:'1',
-  name: settings.name,
-  description: settings.description,
-},
-create:{
-  id:'1',
-  name: settings.name,
-  description: settings.description,
-}
+    update: {
+      id: '1',
+      name: settings.name,
+      description: settings.description,
+    },
+    create: {
+      id: '1',
+      name: settings.name,
+      description: settings.description,
+    }
   });
   return json(settings);
 };

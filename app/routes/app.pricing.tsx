@@ -56,7 +56,7 @@ let planData = [
     price: "0",
     action: "Upgrade to pro",
     name: "Free",
-    url: "/app/sections",
+    url: "/app/upgrade",
     features: [
       "100 wishlist per day",
       "500 Products",
@@ -71,7 +71,7 @@ let planData = [
     price: "10",
     name: "Monthly subscription",
     action: "Upgrade to pro",
-    url: "/app/sections",
+    url: "/app/upgrade",
     features: [
       "Unlimted wishlist per day",
       "10000 Products",

@@ -3,7 +3,7 @@
 client_id = "a878a38df9f8735f4e38986f7a1fefc1"
 name = "wishlist"
 handle = "wishlist-286"
-application_url = "https://bull-boards-bush-kansas.trycloudflare.com"
+application_url = "https://infrastructure-start-opinion-epic.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ scopes = "write_products, write_themes, read_themes"
 
 [auth]
 redirect_urls = [
-  "https://bull-boards-bush-kansas.trycloudflare.com/auth/callback",
-  "https://bull-boards-bush-kansas.trycloudflare.com/auth/shopify/callback",
-  "https://bull-boards-bush-kansas.trycloudflare.com/api/auth/callback"
+  "https://infrastructure-start-opinion-epic.trycloudflare.com/auth/callback",
+  "https://infrastructure-start-opinion-epic.trycloudflare.com/auth/shopify/callback",
+  "https://infrastructure-start-opinion-epic.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
