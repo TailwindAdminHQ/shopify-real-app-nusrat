@@ -9,8 +9,7 @@ import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prism
 import { restResources } from "@shopify/shopify-api/rest/admin/2024-07";
 import prisma from "./db.server";
 
-export const MONTHLY_PLAN = 'Monthly subscription' as const;
-export const ANNUAL_PLAN = 'Annual subscription' as const;
+export const LIFETIME_BASIC_PLAN = 'Lifetime subscription' as const;
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET || "",
@@ -22,15 +21,10 @@ const shopify = shopifyApp({
   distribution: AppDistribution.AppStore,
   restResources,
   billing: {
-    [MONTHLY_PLAN]: {
+    [LIFETIME_BASIC_PLAN]: {
       amount: 5,
       currencyCode: 'USD',
-      interval: BillingInterval.Every30Days,
-    },
-    [ANNUAL_PLAN]: {
-      amount: 50,
-      currencyCode: 'USD',
-      interval: BillingInterval.Annual,
+      interval: BillingInterval.OneTime,
     },
   },
   future: {

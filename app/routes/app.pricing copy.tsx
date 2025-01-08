@@ -10,23 +10,18 @@ import {
   BlockStack,
   ExceptionList
 } from "@shopify/polaris";
-import { json } from "@remix-run/node";
+import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { authenticate, LIFETIME_BASIC_PLAN,  } from "../shopify.server";
+import { authenticate, LIFETIME_BASIC_PLAN } from "../shopify.server";
 
-// import
-//  { MobileAcceptMajor }
-//  from '@shopify/polaris-icons'
-
-export async function loader({ request }) {
+export async function loader({ request }: LoaderFunctionArgs) {
   const { billing } = await authenticate.admin(request);
 
   try {
     // Attempt to check if the shop has an active payment for any plan
     const billingCheck = await billing.require({
-      plans: [LIFETIME_BASIC_PLAN],
+      plans: [ LIFETIME_BASIC_PLAN ],
       isTest: true,
-      // Instead of redirecting on failure, just catch the error
       onFailure: () => {
         throw new Error('No active plan');
       },
@@ -97,7 +92,7 @@ export default function PricingPage() {
             url: '',
           }}
         >
-          { plan.name == "Monthly subscription" ? (
+          { plan.name == "Lifetime subscription" ? (
             <p>
               You're currently on pro plan. All features are unlocked.
             </p>
@@ -150,8 +145,7 @@ export default function PricingPage() {
                 <div style={{ margin: "0.5rem 0"}}>
                   <Divider />
                 </div>
-
-                { plan_item.name == "Lifetime subscription" || "Free" ?
+                { plan_item.name == "Lifetime subscription" ?
                   plan.name != "Lifetime subscription" ? (
                     <Button primary url={plan_item.url}>
                       {plan_item.action}
@@ -166,9 +160,7 @@ export default function PricingPage() {
             </Card>
           </Grid.Cell>
         ))}
-
       </Grid>
-
     </Page>
   );
 }

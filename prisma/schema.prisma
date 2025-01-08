@@ -35,3 +35,15 @@ model Settings {
   name          String
   description         String?
 }
+model Sections {
+  id            String   @id @default(uuid())
+  shop          String
+  name          String
+  price         String
+  file          String?
+  featuredImage String?
+  category      String?
+  tags          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
