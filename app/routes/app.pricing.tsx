@@ -1,12 +1,27 @@
-import { Button, Card, Layout, Page } from '@shopify/polaris';
 import React from 'react';
-import { useActionData, Form } from "@remix-run/react";
+import { Button, Card, Layout, Page } from '@shopify/polaris';
+import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import { authenticate } from 'app/shopify.server';
 import db from '../db.server';
+interface AppPurchaseResponse {
+  data?: {
+    appPurchaseOneTimeCreate?: {
+      appPurchaseOneTime?: {
+        createdAt?: string;
+        id?: string;
+        name?: string;
+        price?: {
+          amount: string;
+          currencyCode: string;
+        };
+      };
+      confirmationUrl?: string;
+    };
+  };
+}
 
-// Action function to execute GraphQL mutation on button click
-export async function action({ request }: { request: Request }) {
+export async function loader({ request }: { request: Request }) {
   const { admin } = await authenticate.admin(request);
 
   const response = await admin.graphql(
@@ -31,6 +46,7 @@ export async function action({ request }: { request: Request }) {
   }`,
     {
       variables: {
+        "test": true,
         "name": "1000 imported orders.",
         "returnUrl": "http://super-duper.shopifyapps.com/",
         "price": {
@@ -42,7 +58,7 @@ export async function action({ request }: { request: Request }) {
   );
 
   const data = await response.json();
-  console.log('+==========================================================================================================================================',data)
+  console.log('+==========================================================================================================================================', data)
 
   if (data?.data?.appPurchaseOneTimeCreate?.appPurchaseOneTime) {
     const { name, price } = data.data.appPurchaseOneTimeCreate.appPurchaseOneTime;
@@ -61,8 +77,9 @@ export async function action({ request }: { request: Request }) {
 }
 
 const Pricing = () => {
-  const actionData = useActionData();
+  const actionData = useLoaderData<AppPurchaseResponse>();
   const purchaseData = actionData?.data?.appPurchaseOneTimeCreate?.appPurchaseOneTime;
+  const confirmationUrl = actionData?.data?.appPurchaseOneTimeCreate?.confirmationUrl;
 
   return (
     <Page fullWidth>
@@ -78,10 +95,16 @@ const Pricing = () => {
             ) : (
               <p>Click the button to make a purchase.</p>
             )}
-            {/* Form to trigger the action */}
-            <Form method="post">
-              <Button submit>Purchase</Button>
-            </Form>
+            {/* <Button
+              onClick={() => {
+                if (confirmationUrl) {
+                  window.open(confirmationUrl, "_blank");
+                }
+              }}
+            >
+              Purchase
+            </Button> */}
+            <Button url={confirmationUrl} target='_blank'>Purchase</Button>
           </Card>
         </Layout.Section>
       </Layout>
