@@ -3,7 +3,7 @@
 client_id = "a878a38df9f8735f4e38986f7a1fefc1"
 name = "wishlist"
 handle = "wishlist-286"
-application_url = "https://replies-pursue-unit-witch.trycloudflare.com"
+application_url = "https://pierre-makes-early-s.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -12,9 +12,9 @@ scopes = "write_products, write_themes, read_themes"
 
 [auth]
 redirect_urls = [
-  "https://replies-pursue-unit-witch.trycloudflare.com/auth/callback",
-  "https://replies-pursue-unit-witch.trycloudflare.com/auth/shopify/callback",
-  "https://replies-pursue-unit-witch.trycloudflare.com/api/auth/callback"
+  "https://pierre-makes-early-s.trycloudflare.com/auth/callback",
+  "https://pierre-makes-early-s.trycloudflare.com/auth/shopify/callback",
+  "https://pierre-makes-early-s.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

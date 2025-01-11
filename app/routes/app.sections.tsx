@@ -1,66 +1,79 @@
-// import {
-//     Page,
-// } from "@shopify/polaris";
-// import { TitleBar } from "@shopify/app-bridge-react";
-// import { authenticate } from "app/shopify.server";
-// import { json, useLoaderData } from "@remix-run/react";
-// import { shopifyApi, ApiVersion } from "@shopify/shopify-api";
-// const host = process.env.HOST || 'http://localhost'; // Use a default value if undefined
+import React from 'react'
+import db from "../db.server";
+import { json } from '@remix-run/node';
+import { ActionList, Button, Card, Layout, Page, Popover } from '@shopify/polaris';
+import { useLoaderData } from '@remix-run/react';
+import { authenticate } from "app/shopify.server";
 
-// const admin = shopifyApi({
-//     apiKey: process.env.SHOPIFY_API_KEY,
-//     apiSecretKey: process.env.SHOPIFY_API_SECRET,
-//     scopes: process.env.SCOPES.split(","),
-//     hostName: host.replace(/https?:\/\//, ""),
-//     apiVersion: ApiVersion.January25,
-// });
-// export async function loader({ request }) {
-//     const { session } = await authenticate.admin(request);
-  
-//     try {
-//       // Fetch all themes using the Theme resource
-//       const themes = await admin.rest.resources.Theme.all({
-//         session: session,
-//       });
-//   console.log(themes)
-//       return json({ themes });
-//     } catch (error) {
-//       console.error("Error fetching themes:", error);
-//       throw new Response("Failed to fetch themes", { status: 500 });
-//     }
-//   }
+export async function loader({ request }) {
+    const { admin } = await authenticate.admin(request);
 
-// // async function handleSectionInject() {
-// //     const themeId = document.getElementById("theme-select").value;
-  
-// //     // Call your API to inject the section
-// //     await fetch(`/app/inject-section`, {
-// //       method: "POST",
-// //       body: JSON.stringify({ themeId }),
-// //       headers: {
-// //         "Content-Type": "application/json",
-// //       },
-// //     });
-// //   }
+    const response = await admin.graphql(
+        `#graphql
+  query {
+    themes(first: 10) {
+      edges {
+        node {
+          name
+          id
+          role
+        }
+      }
+    }
+  }`,
+    );
 
-// export default function SettingsPage() {
-//     const { themes } = useLoaderData();
+    const themes = await response.json();
 
-//     return (
-//         <Page>
-//             <TitleBar title="Sections" />
-//             <div>
-//                 <label htmlFor="theme-select">Choose a theme:</label>
-//                 <select id="theme-select">
-//                     {themes.map((theme) => (
-//                         <option key={theme.id} value={theme.id}>
-//                             {theme.name}
-//                         </option>
-//                     ))}
-//                 </select>
-//                 {/* <button onClick={handleSectionInject}>Inject Section</button> */}
-//             </div>        
-//             </Page>
-//     );
-// }
-// //https://admin.shopify.com/store/nogor-test-store/admin/api/2025-01/themes.json
+    // Fetch all sections from the database
+    const sections = await db.sections.findMany();
+
+    return json({ sections, themes });
+}
+const MySections = () => {
+    const { sections, themes } = useLoaderData<typeof loader>();
+    console.log(themes.data.themes.edges)
+    const themeOptions = themes.data.themes.edges.map((edge: any) => ({
+        label: edge.node.name,
+        value: edge.node.name, // Using theme name as value
+    }));
+    console.log(themeOptions)
+    const [active, setActive] = React.useState<string | null>(null);
+
+    const toggleActive = (id: string) => () => {
+        setActive((activeId) => (activeId !== id ? id : null));
+    };
+    return (
+        <Page fullWidth>
+            <Layout>
+                <Layout.Section>
+                    {sections.map((section) => (
+                        <Card key={section.id}>
+                            <p><strong>Name:</strong> {section.name}</p>
+                            <Popover
+                                active={active === 'popover2'}
+                                preferredAlignment="right"
+                                activator={
+                                    <Button
+                                        onClick={toggleActive('popover2')}
+
+                                        accessibilityLabel="Other save actions"
+                                    />
+                                }
+                                autofocusTarget="first-node"
+                                onClose={toggleActive('popover2')}
+                            >
+                                <ActionList
+                                    actionRole="menuitem"
+                                    items={[{ content: 'Save as draft' }]}
+                                />
+                            </Popover>
+                        </Card>
+                    ))}
+                </Layout.Section>
+            </Layout>
+        </Page>
+    )
+}
+
+export default MySections
